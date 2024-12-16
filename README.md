@@ -1,0 +1,1 @@
+# aws-serverless-pattern-workshop-using-localstack
