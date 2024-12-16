@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Timeout: 10
+
+Parameters:
+  WEBHOOK:
+    Type: String
+    AllowedPattern: https://webhook.site/.*
+
+Resources:
+  UploadBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: chapter04-upload-bucket
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: chapter04-function
+      CodeUri: ./src
+      Handler: app.lambda_handler
+      Runtime: python3.12
+      Architectures:
+        - x86_64
+      Events:
+        Upload:
+          Type: S3
+          Properties:
+            Bucket: !Ref UploadBucket
+            Events: s3:ObjectCreated:*
+  ProcessingBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: chapter04-processing-bucket
+  Alarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: chapter04-alarm
+      MetricName: Errors
+      Namespace: AWS/Lambda
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      EvaluationPeriods: 1
+      Period: 10
+      Statistic: Sum
+      Threshold: 1
+      AlarmActions:
+        - !Ref Topic
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref Function
+  Topic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: chapter04-topic
+      Subscription:
+        - Protocol: https
+          Endpoint: !Ref WEBHOOK
