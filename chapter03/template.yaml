@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Timeout: 10
+
+Resources:
+  UploadBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: chapter03-upload-bucket
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: chapter03-function
+      CodeUri: ./src
+      Handler: app.lambda_handler
+      Runtime: python3.12
+      Architectures:
+        - x86_64
+      Events:
+        Upload:
+          Type: S3
+          Properties:
+            Bucket: !Ref UploadBucket
+            Events: s3:ObjectCreated:*
+  ProcessingBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: chapter03-processing-bucket
