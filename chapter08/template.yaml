@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Timeout: 10
+
+Resources:
+  InputBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: chapter08-inputs-bucket
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: chapter08-function
+      CodeUri: ./src
+      Handler: app.lambda_handler
+      Runtime: python3.12
+      Architectures:
+        - x86_64
+      Environment:
+        Variables:
+          OUTPUT_BUCKET_NAME: chapter08-outputs-bucket
+      Events:
+        S3Event:
+          Type: S3
+          Properties:
+            Bucket: !Ref InputBucket
+            Events: s3:ObjectCreated:*
+  OutputBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: chapter08-outputs-bucket
