@@ -1,0 +1,22 @@
+{
+  "QueryLanguage": "JSONata",
+  "StartAt": "GrayScale",
+  "States": {
+    "GrayScale": {
+      "Type": "Task",
+      "Resource": "${GrayScaleFunctionArn}",
+      "Assign": {
+        "inputPayload": "{% $states.context.Execution.Input %}"
+      },
+      "Next": "Rotate"
+    },
+    "Rotate": {
+      "Type": "Task",
+      "Resource": "${RotateFunctionArn}",
+      "Arguments" : {
+        "Records" : "{% $inputPayload.Records %}"
+      },
+      "End": true
+    }
+  }
+}

@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  UploadBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: chapter06-upload-bucket
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: chapter06-start-execution-function
+      CodeUri: ./src
+      Handler: start-execution.lambda_handler
+      Runtime: python3.12
+      Architectures:
+        - x86_64
+      Environment:
+        Variables:
+          STATE_MACHINE_ARN: !GetAtt StateMachine.Arn
+      Events:
+        Upload:
+          Type: S3
+          Properties:
+            Bucket: !Ref UploadBucket
+            Events: s3:ObjectCreated:*
+  GrayScaleFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: chapter06-gray-scale-function
+      CodeUri: ./src
+      Handler: gray-scale.lambda_handler
+      Runtime: python3.12
+      Architectures:
+        - x86_64
+  RotateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: chapter06-rotate-function
+      CodeUri: ./src
+      Handler: rotate.lambda_handler
+      Runtime: python3.12
+      Architectures:
+        - x86_64
+  StateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      Name: chapter06-state-machine
+      DefinitionUri: ./chapter06.asl.json
+      DefinitionSubstitutions:
+        GrayScaleFunctionArn: !GetAtt GrayScaleFunction.Arn
+        RotateFunctionArn: !GetAtt RotateFunction.Arn
+  ProcessingBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: chapter06-processing-bucket
