@@ -12,7 +12,7 @@ Resources:
       FunctionName: chapter06-start-execution-function
       CodeUri: ./src
       Handler: start-execution.lambda_handler
-      Runtime: python3.12
+      Runtime: python3.13
       Architectures:
         - x86_64
       Environment:
@@ -30,7 +30,7 @@ Resources:
       FunctionName: chapter06-gray-scale-function
       CodeUri: ./src
       Handler: gray-scale.lambda_handler
-      Runtime: python3.12
+      Runtime: python3.13
       Architectures:
         - x86_64
   RotateFunction:
@@ -39,7 +39,7 @@ Resources:
       FunctionName: chapter06-rotate-function
       CodeUri: ./src
       Handler: rotate.lambda_handler
-      Runtime: python3.12
+      Runtime: python3.13
       Architectures:
         - x86_64
   StateMachine:
