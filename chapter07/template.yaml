@@ -24,7 +24,7 @@ Resources:
       FunctionName: chapter07-function
       CodeUri: ./src
       Handler: app.lambda_handler
-      Runtime: python3.12
+      Runtime: python3.13
       Architectures:
         - x86_64
       Events:
