@@ -47,6 +47,14 @@ This workshop covers the following AWS services (in no particular order):
 7. [Trigger on Data Changes](docs/07-cdc.md)
 8. [Transcribe Speech to Text](docs/08-speech-to-text.md)
 
+## LocalStack Workshop Series
+
+Check out the other workshops in the series!
+
+| [![Application Development on AWS](https://raw.githubusercontent.com/kakakakakku/aws-application-workshop-using-localstack/main/images/cover-en.png)](https://github.com/kakakakakku/aws-application-workshop-using-localstack) | [![Terraform on AWS](https://raw.githubusercontent.com/kakakakakku/aws-terraform-workshop-using-localstack/main/images/cover-en.png)](https://github.com/kakakakakku/aws-terraform-workshop-using-localstack) | [![Pulumi on AWS](https://raw.githubusercontent.com/kakakakakku/aws-pulumi-workshop-using-localstack/main/images/cover-en.png)](https://github.com/kakakakakku/aws-pulumi-workshop-using-localstack) |
+|:---:|:---:|:---:|
+| [Application Development on AWS](https://github.com/kakakakakku/aws-application-workshop-using-localstack) | [Terraform on AWS](https://github.com/kakakakakku/aws-terraform-workshop-using-localstack) | [Pulumi on AWS](https://github.com/kakakakakku/aws-pulumi-workshop-using-localstack) |
+
 ## Sponsors
 
 If you find this workshop useful, consider supporting my work — it keeps the workshops maintained and motivates new ones 😃
